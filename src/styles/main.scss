@@ -3,4 +3,121 @@
 body,
 body * {
   box-sizing: border-box;
+  background-color: #050608;
+  background-image: url("../images/water-colorful-liquid-minimalism-wallpaper-preview.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: whitesmoke;
+}
+
+main {
+  width: 90vw;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .nav-bar {
+    padding: 10px;
+    font-size: xx-large;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    position: fixed;
+  }
+
+  .load-page {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .sss {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+
+
+    .card {
+      color: whitesmoke;
+      margin: 5px;
+      padding: 5px;
+      border: 1px solid whitesmoke;
+      border-radius: 5px;
+      width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex-grow: 1;
+
+
+      .img {
+
+
+        img {
+          width: 100%;
+          display: block;
+        }
+      }
+
+      .Ingredients {
+        button {
+          margin-top: 1rem;
+          display: block;
+        }
+      }
+
+      .details {
+        position: relative;
+
+        .details__span {
+          text-decoration: underline;
+          font-size: 1.3rem;
+
+
+          i {
+            transition: ease-in .2s;
+
+          }
+
+
+        }
+
+        .instructions {
+          height: 0;
+          visibility: hidden;
+          z-index: -10;
+          bottom: 0;
+
+          transition: ease-in .2s;
+        }
+
+        .instructions2 {
+          height: 100%;
+          visibility: visible;
+          position: relative;
+          transition: ease-in .2s;
+          top: 0;
+
+          transition: ease-in .2s;
+        }
+      }
+    }
+  }
+}
+
+
+
+.rotate {
+
+  transform: rotate(180deg);
 }

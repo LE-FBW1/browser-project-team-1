@@ -3,49 +3,209 @@ import "../styles/main.scss";
 
 // Import any additional modules you want to include below \/
 import "regenerator-runtime/runtime";
-import getRequest from "./getRequest"
+/* import {
+  getRequest
+} from "./getRequest"
 import {
   render,
   render2
-} from "./render"
+} from "./render" */
 // \/ All of your javascript should go here \/
-
+let shoppingListArr = []
 let data = [];
 let data1 = [];
-const form = document.querySelector("#form");
+const load = document.querySelector(".load-page");
 const searchInput = document.querySelector("#search");
 const optionSelect = document.querySelector("#select");
 const randomBTN = document.querySelector("#random");
+const submitBTN = document.querySelector("#submit");
 const container = document.querySelector(".sss");
-let goToDrink = document.querySelector(".go-to-drink");
+
+
+
+
 const init = evt => {
-  evt.preventDefault();
-  container.textContent = "";
-  getRequest(searchInput.value, optionSelect.value).then(() =>
-    optionSelect.value === "i" ? render2(data) : render(data)
-  );
+  if (searchInput.value === "") {
+    alert("please fill the search field");
+  } else {
+    evt.preventDefault();
+    container.textContent = "";
+    getRequest(searchInput.value, optionSelect.value).then(() =>
+      optionSelect.value === "i" ? render2(data) : render(data)
+    );
+  }
+
 };
 
-
-let handleDrinkEvent = async evt => {
-  console.log(evt.target.id);
-
+let random = async evt => {
+  sessionStorage.clear();
+  container.textContent = "";
   let response = await fetch(
-    `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${evt.target.id}`
+    `https://www.thecocktaildb.com/api/json/v1/1/random.php`
   );
+
   data1 = [];
   let responseJSON = await response.json();
-  console.log(responseJSON);
+
   data1.push(responseJSON.drinks[0]);
   render(data1);
-  console.log("data1", data1);
+
 };
 //getCocktailByID;
 
 //getIDbyIngredient
 
+////////////////////render
+let render2 = array => {
+  let elementText = "";
+  sessionStorage.clear();
+  array.forEach(
+    item =>
+    (elementText =
+      elementText +
+      `<div class="card">
+  <div class="img">
+    <img src="${item.strDrinkThumb}" alt="" />
+  </div>
+  <div class="details">
+    <h3>${item.strDrink}</h3>
+    <span class="go-to-drink" id="${item.idDrink}">go to drink</span>
+    
+  </div>
+</div>`)
+  );
 
-form.addEventListener("submit", init);
-container.addEventListener("click", handleDrinkEvent);
+  container.insertAdjacentHTML("beforeend", elementText);
 
-randomBTN.addEventListener("click", random)
+  container.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+
+  })
+};
+let render = array => {
+  sessionStorage.clear();
+  container.innerHTML = "";
+  let elementText = "";
+
+  Array.from(array).forEach(item => {
+    let finalIngredientsArr = [];
+    let ingredientsArr = [
+      item.strIngredient1,
+      item.strIngredient2,
+      item.strIngredient3,
+      item.strIngredient4,
+      item.strIngredient5,
+      item.strIngredient6,
+      item.strIngredient7,
+      item.strIngredient8,
+      item.strIngredient9,
+      item.strIngredient10,
+      item.strIngredient11,
+      item.strIngredient12,
+      item.strIngredient13,
+      item.strIngredient14,
+      item.strIngredient15
+    ];
+    ingredientsArr.forEach(item => {
+      if (item !== null) finalIngredientsArr.push(" " + item);
+    });
+
+    elementText =
+      elementText +
+      `<div class="card">
+    <div class="img">
+      <img src="${item.strDrinkThumb}" alt="" />
+    </div>
+    <div class="details">
+      <h3>${item.strDrink}</h3>
+      <p ><strong>Ingredients: </strong><p>${finalIngredientsArr}</p><button>add to shopping list</button></p>
+      <span class="details__span">details <i class=" rotate fas fa-arrow-alt-circle-up"></i></span>
+      <div  class ="instructions">
+        <p >${item.strInstructions} </p>
+      </div>
+    </div>
+  </div>`;
+  });
+
+  container.insertAdjacentHTML("beforeend", elementText);
+  elementText = "";
+
+  container.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+
+  })
+
+};
+////////////getRequest
+const getRequest = async (search, option) => {
+  data = [];
+  if (option === "i") {
+    let response = await fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/filter.php?${option}=${search}`
+    );
+    let responseJSON = await response.json();
+    await responseJSON.drinks.forEach(element => data.push(element));
+  } else {
+    let response = await fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/search.php?${option}=${search}`
+    );
+    let responseJSON = await response.json();
+    await responseJSON.drinks.forEach(element => data.push(element));
+  }
+
+  sessionStorage.setItem("drinks", JSON.stringify(data));
+};
+
+submitBTN.addEventListener("click", init);
+
+
+
+let changeClass1 = evt => {
+  let card = evt.target.closest(".card")
+  let instructions = card.querySelector(".instructions")
+
+  let details = card.querySelector(".details__span")
+
+  if (evt.target === details) {
+    instructions.classList.toggle("instructions2")
+    details.firstElementChild.classList.toggle("rotate")
+  }
+};
+
+let goToDrink = async (evt) => {
+
+  data1 = []
+  if (evt.target.classList.contains("go-to-drink")) {
+    console.log()
+    let response = await fetch(
+      `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${evt.target.id}`
+    )
+    let responseJSON = await response.json();
+    console.log(responseJSON)
+    data1.push((responseJSON.drinks[0]));
+    render(data1)
+  }
+}
+
+
+let addToShoppingList = (evt) => {
+  let card = evt.target.closest(".card")
+  let shoppingBTN = card.querySelector("button")
+  let drinkTitle = shoppingBTN.closest(".details").firstElementChild.textContent
+
+  let shoppingItems = shoppingBTN.previousElementSibling.textContent
+  let shoppingItemsArr = shoppingItems.split(",");
+  shoppingItemsArr.unshift(drinkTitle)
+  if (evt.target === shoppingBTN) shoppingListArr.push(shoppingItemsArr)
+}
+
+
+
+
+/* instructions.classList.replace("instructions", "instructions2") */
+randomBTN.addEventListener("click", random);
+container.addEventListener("click", goToDrink)
+container.addEventListener("click", changeClass1);
+container.addEventListener("click", addToShoppingList)
