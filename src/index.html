@@ -10,32 +10,36 @@
   <body>
     <main>
       <nav class="nav-bar">
-        <i class="fas fa-sort-amount-up-alt"></i>
+        <a href="#load-page"><i class="fas fa-sort-amount-up-alt"></i></a>
         <i class="fas fa-shopping-cart"></i>
       </nav>
-      <section class="load-page">
+      <div class="shopping-list"></div>
+
+      <section id="load-page" class="load-page">
         <h1 class="headline">Cocktail Master</h1>
         <p>
-          search for a cocktail by cocktail name or Ingredients or by first
-          letter of the cocktail
+          Search for a cocktail by name, ingredient or first letter
         </p>
         <form action="#" id="form" class="form">
           <div class="form__search">
+            <select name="select" id="select">
+              <option value="s">Name</option>
+              <option value="f">First letter</option>
+              <option value="i">Ingredient</option>
+            </select>
             <input
               type="search"
               name="search"
               id="search"
               placeholder="Search by"
             />
-            <select name="select" id="select">
-              <option value="s">cocktail name</option>
-              <option value="f">first letter</option>
-              <option value="i">Ingredient</option>
-            </select>
+            <button id="submit" type="submit">Search</button>
           </div>
           <div class="form__btn">
-            <button id="submit" type="submit">Search</button>
-            <button id="random">Get Random Cocktail</button>
+            <button id="random">
+              Get Random Cocktail <i class="fas fa-cocktail"></i>
+              <i class="fas fa-random"></i>
+            </button>
           </div>
         </form>
       </section>

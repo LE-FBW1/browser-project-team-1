@@ -20,7 +20,8 @@ const optionSelect = document.querySelector("#select");
 const randomBTN = document.querySelector("#random");
 const submitBTN = document.querySelector("#submit");
 const container = document.querySelector(".sss");
-
+let shoppingList = document.querySelector(".shopping-list")
+const shoppingIcon = document.querySelector(".fa-shopping-cart")
 
 
 
@@ -69,7 +70,7 @@ let render2 = array => {
   </div>
   <div class="details">
     <h3>${item.strDrink}</h3>
-    <span class="go-to-drink" id="${item.idDrink}">go to drink</span>
+    <span class="go-to-drink" id="${item.idDrink}">Go to drink <i class="fas fa-glass-cheers"></i> </span>
     
   </div>
 </div>`)
@@ -108,7 +109,7 @@ let render = array => {
       item.strIngredient15
     ];
     ingredientsArr.forEach(item => {
-      if (item !== null) finalIngredientsArr.push(" " + item);
+      if (item !== null && item !== "") finalIngredientsArr.push(" " + item);
     });
 
     elementText =
@@ -188,7 +189,19 @@ let goToDrink = async (evt) => {
     render(data1)
   }
 }
-
+let renderShoppingList = () => {
+  shoppingList.innerHTML = "";
+  let listHTML = "";
+  shoppingListArr.forEach(item => {
+    listHTML += `<ul><strong>${item[0]}</strong>`
+    for (let i = 1; i < item.length; i++) {
+      listHTML += `<li>${item[i]}</li>`
+    }
+    listHTML += "</ul>"
+  })
+  shoppingList.insertAdjacentHTML("beforeend", listHTML)
+  console.log(shoppingList)
+}
 
 let addToShoppingList = (evt) => {
   let card = evt.target.closest(".card")
@@ -199,9 +212,20 @@ let addToShoppingList = (evt) => {
   let shoppingItemsArr = shoppingItems.split(",");
   shoppingItemsArr.unshift(drinkTitle)
   if (evt.target === shoppingBTN) shoppingListArr.push(shoppingItemsArr)
+  console.log(shoppingListArr)
+  //console.log(shoppingListArr[1])
+  renderShoppingList()
 }
+shoppingListArr.forEach(item => console.log(item))
 
 
+let showShoppingList = (evt) => {
+
+  if (evt.target === shoppingIcon) {
+    shoppingList.classList.toggle("shopping-list1")
+
+  }
+}
 
 
 /* instructions.classList.replace("instructions", "instructions2") */
@@ -209,3 +233,5 @@ randomBTN.addEventListener("click", random);
 container.addEventListener("click", goToDrink)
 container.addEventListener("click", changeClass1);
 container.addEventListener("click", addToShoppingList)
+
+shoppingIcon.addEventListener("click", showShoppingList)
