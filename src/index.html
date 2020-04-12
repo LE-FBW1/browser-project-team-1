@@ -16,17 +16,40 @@
       <div class="shopping-list"></div>
 
       <section id="load-page" class="load-page">
-        <h1 class="headline">Cocktail Master</h1>
+        <h1 class="headline">
+          <i class="fas fa-copyright"></i>ocktail
+          <i class="fas fa-glass-cheers"></i
+          ><i class="fas fa-glass-cheers"></i>aster
+        </h1>
         <p>
           Search for a cocktail by name, ingredient or first letter
         </p>
         <form action="#" id="form" class="form">
           <div class="form__search">
-            <select name="select" id="select">
-              <option value="s">Name</option>
-              <option value="f">First letter</option>
-              <option value="i">Ingredient</option>
-            </select>
+            <div name="select" id="select">
+              <input
+                type="radio"
+                name="select-option"
+                class="select-option"
+                value="s"
+                id="s"
+              />
+              <label for="s">Name</label>
+              <input
+                type="radio"
+                name="select-option"
+                class="select-option"
+                value="f"
+                id="f"
+              /><label for="f">First Letter</label>
+              <input
+                type="radio"
+                name="select-option"
+                class="select-option"
+                value="i"
+                id="i"
+              /><label for="i">Ingredients</label>
+            </div>
             <input
               type="search"
               name="search"
@@ -37,8 +60,7 @@
           </div>
           <div class="form__btn">
             <button id="random">
-              Get Random Cocktail <i class="fas fa-cocktail"></i>
-              <i class="fas fa-random"></i>
+              Get Random Cocktail
             </button>
           </div>
         </form>

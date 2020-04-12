@@ -16,7 +16,7 @@ let data = [];
 let data1 = [];
 const load = document.querySelector(".load-page");
 const searchInput = document.querySelector("#search");
-const optionSelect = document.querySelector("#select");
+const optionSelect = document.querySelectorAll(".select-option")
 const randomBTN = document.querySelector("#random");
 const submitBTN = document.querySelector("#submit");
 const container = document.querySelector(".sss");
@@ -26,13 +26,23 @@ const shoppingIcon = document.querySelector(".fa-shopping-cart")
 
 
 const init = evt => {
+  let optionValue
+
+
+  Array.from(optionSelect).map(item => {
+    console.log(item)
+    if (item.checked) optionValue = item.value
+
+
+  });
+  console.log(optionValue)
   if (searchInput.value === "") {
     alert("please fill the search field");
   } else {
     evt.preventDefault();
     container.textContent = "";
-    getRequest(searchInput.value, optionSelect.value).then(() =>
-      optionSelect.value === "i" ? render2(data) : render(data)
+    getRequest(searchInput.value, optionValue).then(() =>
+      optionValue === "i" ? render2(data) : render(data)
     );
   }
 
